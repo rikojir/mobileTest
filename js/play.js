@@ -136,6 +136,15 @@ var playState = {
                 console.log(this.doublejump);
         }
     },
+  
+    jumpPlayer : function() {
+      // If the player is touching the ground
+      if (this.player.body.onFloor()) {
+        // Jump with sound
+        this.player.body.velocity.y = -320;
+        this.jumpSound.play();
+      }
+    },
     
     checkForDoubleJump : function() {
         this.doubleJumpChecker = this.player.body.touching.down;
@@ -262,6 +271,12 @@ var playState = {
       // Add the jump button
       this.jumpButton = game.add.sprite(350, 247, 'jumpButton');
       this.jumpButton.inputEnabled = true;
+      this.jumpButton.events.onInputDown.add(function(){
+        if (this.player.body.touching.down) {
+          this.jumpSound.play();
+          this.player.body.velocity.y = -320; 
+        }
+      }, this);
       this.jumpButton.alpha = 0.5;
       
       // Movement variables
@@ -271,7 +286,9 @@ var playState = {
       // Add the move left button
       this.leftButton = game.add.sprite(50, 247, 'leftButton');
       this.leftButton.inputEnabled = true;
-      this.leftButton.events.onInputOver.add(function(){this.moveLeft=true;}, this); this.leftButton.events.onInputOut.add(function(){this.moveLeft=false;}, this); this.leftButton.events.onInputDown.add(function(){this.moveLeft=true;}, this); this.leftButton.events.onInputUp.add(function(){this.moveLeft=false;}, this);
+      this.leftButton.events.onInputOver.add(function(){this.moveLeft=true;}, this);
+      this.leftButton.events.onInputOut.add(function(){this.moveLeft=false;}, this); this.leftButton.events.onInputDown.add(function(){this.moveLeft=true;}, this);
+      this.leftButton.events.onInputUp.add(function(){this.moveLeft=false;}, this);
       this.leftButton.alpha = 0.5;
 
       // Add the move right button
@@ -284,13 +301,5 @@ var playState = {
       this.jumpButton.events.onInputDown.add(this.jumpPlayer, this);
     },
   
-    jumpPlayer: function() {
-      // If the player is touching the ground
-      if (this.player.body.onFloor()) {
-        // Jump with sound
-        this.player.body.velocity.y = -320;
-        this.jumpSound.play();
-      }
-    },
 };
 // Removed Phaser and states initialisation

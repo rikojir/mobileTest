@@ -28,7 +28,9 @@ var bootState = {
           game.scale.pageAlignHorizontally = true;
           game.scale.pageAlignVertically = true;
           // Apply the scale changes
-          game.scale.setScreenSize(true);
+          
+          //WARNING: IMPORTANT CHANGE!
+          game.scale.refresh();
         }
       
       
