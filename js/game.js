@@ -1,7 +1,7 @@
 var scaleRatio = window.devicePixelRatio / 3;
 
 /* Initialize Phaser */
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(window.innerWidth* window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'gameDiv');
 
 /* Define out global variable for the score */
 game.global = {
