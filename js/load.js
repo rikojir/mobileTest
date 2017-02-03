@@ -34,5 +34,9 @@ var loadState = {
     create : function() {
         /* Go to the menu state */
         game.state.start('menu');
+    },
+  
+    scaleAsset : function(asset) {
+        asset.scale.setTo(scaleRatio, scaleRatio);
     }
 }

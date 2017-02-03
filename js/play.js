@@ -13,6 +13,7 @@ var playState = {
         }
         
         this.player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
+        //game.state.states.load.scaleAsset(this.player);
         this.player.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(this.player);
         this.player.body.gravity.y = 600;
@@ -24,9 +25,11 @@ var playState = {
         this.enemies = game.add.group();
         this.enemies.enableBody = true;
         this.enemies.createMultiple(10, 'enemy');
+        //game.state.states.load.scaleAsset(this.enemies);
         
         this.coin = game.add.sprite(60, 140, 'coin');
-        game.physics.arcade.enable(this.coin);
+        //game.state.states.load.scaleAsset(this.coin);
+        //game.physics.arcade.enable(this.coin);
         this.coin.anchor.setTo(0.5, 0.5);
         
         this.scoreLabel = game.add.text(30, 30, 'score: 0', {font: '18px Arial', fill: '#ffffff'}); 
