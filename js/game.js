@@ -1,5 +1,3 @@
-var scaleRatio = window.devicePixelRatio / 3;
-
 /* Initialize Phaser */
 var game = new Phaser.Game(500, 340, Phaser.AUTO, 'gameDiv');
 

@@ -29,7 +29,7 @@ var playState = {
         
         this.coin = game.add.sprite(60, 140, 'coin');
         //game.state.states.load.scaleAsset(this.coin);
-        //game.physics.arcade.enable(this.coin);
+        game.physics.arcade.enable(this.coin);
         this.coin.anchor.setTo(0.5, 0.5);
         
         this.scoreLabel = game.add.text(30, 30, 'score: 0', {font: '18px Arial', fill: '#ffffff'}); 
@@ -63,14 +63,19 @@ var playState = {
             this.playerDie();
         }
         
-        /* Check for collisions between player and coins */
-        game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
+        
         
         // Make the enemies and walls collide
         game.physics.arcade.collide(this.enemies, this.walls);
         // Call the 'playerDie' function when the player and an enemy overlap
         game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
       
+        /* Check for collisions between player and coins */
+        game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
+    },
+  
+    write: function() {
+      console.log("hi");
     },
     
     /* And here we will later add some of our own functions */
@@ -224,6 +229,7 @@ var playState = {
     
     // No changes
     takeCoin: function (player, coin) {
+        console.log("TakeCoin");
         
         /* Play coin sound */
         this.coinSound.play();

@@ -10,17 +10,17 @@ var bootState = {
         /* Set some game settings */
         game.stage.backgroundColor = '#3498db';
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        /* Start the load state */
+      
+        /* Scale the game to keep aspect ratio untouched and 
+        always show the complete game */
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+          
+        /* Landscape allowed, portrait not */
+        game.scale.forceOrientation(true, false);
       
       
         // If the device is not a desktop, so it's a mobile device
         if (!game.device.desktop) {
-          /* Scale the game to keep aspect ratio untouched and 
-          always show the complete game */
-          game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-          
-          /* Landscape allowed, portrait not */
-          game.scale.forceOrientation(true, false);
           
           // Add a blue color to the page, to hide the white borders we might have
           document.body.style.backgroundColor = '#3498db';
@@ -42,7 +42,7 @@ var bootState = {
           game.state.start('load');
     },
   
-    update: function() {
+    /*update: function() {
       if (game.scale.isPortrait) {
         document.getElementById('turn').style.display = "block";
       }
@@ -51,5 +51,5 @@ var bootState = {
         document.getElementById('turn').style.display = "none";
         game.state.start('load');
       }
-    }
+    }*/
 }
