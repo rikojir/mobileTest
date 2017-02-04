@@ -70,6 +70,11 @@ var playState = {
         game.physics.arcade.collide(this.enemies, this.walls);
         // Call the 'playerDie' function when the player and an enemy overlap
         game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
+      
+        //Check for screen rotation
+        if (game.scale.screenOrientation !== prevOrientation) {
+          // do nothing
+        }
     },
     
     /* And here we will later add some of our own functions */
