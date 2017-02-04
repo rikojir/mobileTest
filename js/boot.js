@@ -6,9 +6,26 @@ var bootState = {
         /* Scale the game to keep aspect ratio untouched and 
         always show the complete game */
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        //game.scale.pageAlignHorizontally = true;
-        //game.scale.pageAlignVertically = true;
+      
+        if (!game.device.desktop) {
+          /* Landscape allowed, portrait not */
+          game.scale.forceOrientation(true, false);
+          game.scale.enterIncorrectOrientation.add(this.handleIncorrect);
+          game.scale.leaveIncorrectOrientation.add(this.handleCorrect);
+        }
     }, 
+  
+    handleIncorrect: function() {
+      if (!game.device.desktop) {
+        document.getElementById('turn').style.display="block";
+      }
+    },
+  
+    handleCorrect: function() {
+      if(!game.device.desktop) {
+        document.getElementById('turn').style.display="none";
+      }
+    },
     
     create: function () {
         /* Set some game settings */
@@ -35,11 +52,12 @@ var bootState = {
           // Apply the scale changes
           
           //WARNING: IMPORTANT CHANGE!
-          game.scale.refresh();
-        }
-      
-      
-      
-        game.state.start('load');
+          //game.scale.refresh();
+          if (game.scale.isPortrait) {
+            game.state.start('portrait');
+          } 
+        } else {
+          game.state.start('load');
+        }  
     }
 }
