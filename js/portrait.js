@@ -9,11 +9,17 @@ var portraitState = {
   },
   
   update: function() {
-    console.log("hi");
+    if (game.scale.onOrientationChange.prevOrientation="portrait") {
+      document.getElementById('turn').style.display="none";
+      game.state.start('load');
+    }
+    
+    
+    /*console.log("hi");
     if (game.scale.isPortrait == false) {
       console.log("in");
       game.state.start('load');
-    }
+    }*/
   },
   
   handleIncorrect: function() {
