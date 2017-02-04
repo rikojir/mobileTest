@@ -3,6 +3,11 @@ var bootState = {
     preload: function () {
         /* Load the menu image */
         game.load.image('progressBar', 'assets/progressBar.png');
+        /* Scale the game to keep aspect ratio untouched and 
+        always show the complete game */
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        //game.scale.pageAlignHorizontally = true;
+        //game.scale.pageAlignVertically = true;
     }, 
     
     create: function () {
@@ -16,7 +21,7 @@ var bootState = {
         if (!game.device.desktop) {
           // Set the type of scaling to 'show all'
           
-          game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+          
           // Add a blue color to the page, to hide the white borders we might have
           document.body.style.backgroundColor = '#3498db';
           // Set the min and max width/height of the game
