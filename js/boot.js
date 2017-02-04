@@ -42,7 +42,7 @@ var bootState = {
           game.state.start('load');
     },
   
-    /*update: function() {
+    update: function() {
       if (game.scale.isPortrait) {
         document.getElementById('turn').style.display = "block";
       }
@@ -51,5 +51,5 @@ var bootState = {
         document.getElementById('turn').style.display = "none";
         game.state.start('load');
       }
-    }*/
+    }
 }
