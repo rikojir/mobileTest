@@ -3,36 +3,8 @@ var bootState = {
     preload: function () {
         /* Load the menu image */
         game.load.image('progressBar', 'assets/progressBar.png');
-        /* Scale the game to keep aspect ratio untouched and 
-        always show the complete game */
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-      
-        if (!game.device.desktop) {
-          /* Landscape allowed, portrait not */
-          game.scale.forceOrientation(true, false);
-          /*game.scale.enterIncorrectOrientation.add(this.handleIncorrect);
-          game.scale.leaveIncorrectOrientation.add(this.handleCorrect);*/
-          
-          /*if (game.scale.onOrientationChange.prevOrientation="landscape") {
-            document.getElementById('turn').style.display="block";
-          }
-          if (game.scale.onOrientationChange.prevOrientation="portrait") {
-            document.getElementById('turn').style.display="none";
-          }*/
-        }
     }, 
-  
-    handleIncorrect: function() {
-      if (!game.device.desktop) {
-        document.getElementById('turn').style.display="block";
-      }
-    },
-  
-    handleCorrect: function() {
-      if(!game.device.desktop) {
-        document.getElementById('turn').style.display="none";
-      }
-    },
+
     
     create: function () {
         /* Set some game settings */
@@ -43,8 +15,12 @@ var bootState = {
       
         // If the device is not a desktop, so it's a mobile device
         if (!game.device.desktop) {
-          // Set the type of scaling to 'show all'
+          /* Scale the game to keep aspect ratio untouched and 
+          always show the complete game */
+          game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
           
+          /* Landscape allowed, portrait not */
+          game.scale.forceOrientation(true, false);
           
           // Add a blue color to the page, to hide the white borders we might have
           document.body.style.backgroundColor = '#3498db';
@@ -60,11 +36,20 @@ var bootState = {
           
           //WARNING: IMPORTANT CHANGE!
           //game.scale.refresh();
-          if (game.scale.isPortrait) {
-            game.state.start('portrait');
-          } 
-        } else {
+        }
+          
+          
           game.state.start('load');
-        }  
+    },
+  
+    update: function() {
+      if (game.scale.isPortrait) {
+        document.getElementById('turn').style.display = "block";
+      }
+      if (game.scale.isLandscape) {
+        console.log("hi");
+        document.getElementById('turn').style.display = "none";
+        game.state.start('load');
+      }
     }
 }
