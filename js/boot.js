@@ -13,12 +13,12 @@ var bootState = {
           /*game.scale.enterIncorrectOrientation.add(this.handleIncorrect);
           game.scale.leaveIncorrectOrientation.add(this.handleCorrect);*/
           
-          if (game.scale.onOrientationChange.prevOrientation="landscape") {
+          /*if (game.scale.onOrientationChange.prevOrientation="landscape") {
             document.getElementById('turn').style.display="block";
           }
           if (game.scale.onOrientationChange.prevOrientation="portrait") {
             document.getElementById('turn').style.display="none";
-          }
+          }*/
         }
     }, 
   
