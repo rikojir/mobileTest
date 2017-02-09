@@ -37,7 +37,9 @@ var playState = {
         game.global.score = 0;
         
         this.createWorld();
-        game.time.events.loop(2200, this.addEnemy, this);
+      
+        //Contains the time of the next enemy creation
+        this.nextEnemy = 0;
         
         /* Sound */
         this.jumpSound = game.add.audio('jump');
@@ -45,6 +47,16 @@ var playState = {
         this.deadSound = game.add.audio('dead');
         
         this.doublejump = 0;
+      
+        //Add an emitter at 0/0, we don't know where the animation will be needed by now
+        this.emitter = game.add.emitter(0, 0, 20);
+        //Use the pixel.png image as a particle
+        this.emitter.makeParticles('pixel');
+        //When firing, choose random x/y speed between -150 and 150
+        this.emitter.setYSpeed(-150,150);
+        this.emitter.setXSpeed(-150,150);
+        //No gravity for pixels, otherwise the pixels will fall down
+        this.emitter.gravity = 0;
         
     },
     
@@ -63,7 +75,18 @@ var playState = {
             this.playerDie();
         }
         
-        
+        // If nextEnemy has passed create a new enemy
+        if (this.nextEnemy < game.time.now) {
+          
+          var start = 4000, end = 1000, score = 100;
+          
+          var delay = Math.max(start - (start-end) * game.global.score / score, end);
+          
+          this.addEnemy();
+          
+          // Add 2,2s to the actual time, so next spawning will be in 2,2s
+          this.nextEnemy = game.time.now + delay;
+        }
         
         // Make the enemies and walls collide
         game.physics.arcade.collide(this.enemies, this.walls);
@@ -229,7 +252,14 @@ var playState = {
     
     // No changes
     takeCoin: function (player, coin) {
-        console.log("TakeCoin");
+      
+        //Scale coin down and add pop-up animation tween
+        this.coin.scale.setTo(0,0);
+        game.add.tween(this.coin.scale).to({x: 1, y: 1}, 300).start();
+      
+        
+        //Scale player bigger a little when getting a coin
+        game.add.tween(this.player.scale).to({x: 1.9, y: 1.9}, 50).to({x: 1, y: 1}, 150).start();
         
         /* Play coin sound */
         this.coinSound.play();
@@ -242,12 +272,29 @@ var playState = {
     
     // No changes
     playerDie: function () {
+        //Already dead? Do nothing (Avoids looping the dead-sound because of the timer below)
+        if (!this.player.alive) {
+          return;
+        }
+      
+        // Kill the player
+        this.player.kill();
         
         /* Play dead sound */
         this.deadSound.play();
-        
-        // When the player dies, we go to the menu 
-        game.state.start('menu');
+      
+        // Set the position of the emitter to the players position
+        this.emitter.x = this.player.x;
+        this.emitter.y = this.player.y;
+        // true = all particles at once, 600ms lifespan for each particle, frequency null because all particles explode at once, 15 particles will explode
+        this.emitter.start(true, 600, null, 20);
+      
+        // When the player dies, we go to the menu in 1000ms = 1s, so that the emitter animation will still be shown
+        game.time.events.add(1000, this.startMenu, this);
+    },
+  
+    startMenu: function() {
+      game.state.start('menu');
     },
     
     createWorld : function() {

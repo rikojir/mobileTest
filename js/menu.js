@@ -3,16 +3,37 @@ var menuState = {
     create: function () {
         // Add a background image game.add.image(0, 0, 'background');
         // Display the name of the game
-        var nameLabel = game.add.text(game.world.centerX, 80, 'Super Coin Box', {
+        var nameLabel = game.add.text(game.world.centerX, -50, 'Super Coin Box', {
             font: '50px Arial'
             , fill: '#ffffff'
         });
         nameLabel.anchor.setTo(0.5, 0.5);
+      
+        //Tween for nameLabel
+        game.add.tween(nameLabel).to({y: 80}, 1000).easing(Phaser.Easing.Bounce.Out).start();
+      
+        //Add best score with HTML5 local storage
+        //If there is no key-/value-pair by now, add it
+        if (!localStorage.getItem('bestScore')) {
+          localStorage.setItem('bestScore', 0);
+        }
+      
+        //Check, if the best score has been beaten and update the localStorage accordingly
+        if (game.global.score > localStorage.getItem('bestScore')) {
+          localStorage.setItem('bestScore', game.global.score);
+        }
     
         // Show the score at the center of the screen
-        var scoreLabel = game.add.text(game.world.centerX, game.world.centerY, 'score: ' + game.global.score, {font: '25px Arial', fill: '#ffffff'});
-
+        var scoreLabel = game.add.text(game.world.centerX, game.world.centerY, 'score: ' + game.global.score + '\n' + 'best score: ' + localStorage.getItem('bestScore'), {font: '25px Arial', fill: '#ffffff'});
         scoreLabel.anchor.setTo(0.5, 0.5);
+      
+        // Create mute button
+        this.muteButton = game.add.button(20, 20, 'muteButton', this.toggleSound, this);
+        // Mouse icon turns into a hand cursor, when moved over the button
+        this.muteButton.input.useHandCursor = true;
+      
+        // Create start button
+        this.startButton = game.add.button(game.world.centerX, game.world.height-80, 'startButton', this.start, this);
       
         // Store the relevant text based on the device used
         if (game.device.desktop) {
@@ -20,22 +41,32 @@ var menuState = {
         }
         else {
           var text = 'touch the screen to start';
+          // Enable touch input
+          //game.input.onDown.addOnce(this.start, this);
         }
 
         // Explain how to start the game
         var startLabel = game.add.text(game.world.centerX, game.world.height - 80, text, {font: '25px Arial', fill: '#ffffff'});
         startLabel.anchor.setTo(0.5, 0.5);
       
+        //Tween for startLabel
+        game.add.tween(startLabel).to({angle: -2}, 500).to({angle: 2}, 500).loop().start();
+      
         // Create a new Phaser keyboard variable: the up arrow key
         var upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-      
-        // Create TouchControl
-        // Start game when screen is //touched
-        game.input.onDown.addOnce(this.start, this);
       
         // When the 'upKey' is pressed, it will call the 'start' function once
         upKey.onDown.addOnce(this.start, this);
     }, 
+  
+    toggleSound: function() {
+      // If we die when the game is muted and the default frame 0 is shown, we change it to achieve consistency
+      if (game.sound.mute) {
+        this.muteButton.frame = 1;
+      }
+      game.sound.mute = ! game.sound.mute;
+      this.muteButton.frame = game.sound.mute ? 1 : 0;
+    },
     
     start: function () {
         //Start the actual game 

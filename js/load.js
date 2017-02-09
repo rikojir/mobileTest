@@ -15,6 +15,9 @@ var loadState = {
         /* Load the player as a spritesheet for later animation */
         game.load.spritesheet('player', 'assets/player2.png', 20, 20);
         
+        game.load.image('startButton', 'assets/startButton.png');
+        game.load.spritesheet('muteButton', 'assets/muteButton.png', 28, 22);
+        game.load.image('pixel', 'assets/pixel.png');
         game.load.image('enemy', 'assets/enemy.png');
         game.load.image('coin', 'assets/coin.png');
         game.load.image('wallV', 'assets/wallVertical.png');

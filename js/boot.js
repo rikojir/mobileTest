@@ -3,6 +3,13 @@ var bootState = {
     preload: function () {
         /* Load the menu image */
         game.load.image('progressBar', 'assets/progressBar.png');
+      
+        /* Scale the game to keep aspect ratio untouched and 
+        always show the complete game */
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      
+        /* Landscape allowed, portrait not */
+        game.scale.forceOrientation(true, false);
     }, 
 
     
@@ -11,14 +18,7 @@ var bootState = {
         game.stage.backgroundColor = '#3498db';
         game.physics.startSystem(Phaser.Physics.ARCADE);
       
-        /* Scale the game to keep aspect ratio untouched and 
-        always show the complete game */
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-          
-        /* Landscape allowed, portrait not */
-        game.scale.forceOrientation(true, false);
-      
-      
+
         // If the device is not a desktop, so it's a mobile device
         if (!game.device.desktop) {
           
@@ -44,10 +44,11 @@ var bootState = {
   
     update: function() {
       if (game.scale.isPortrait) {
+        console.log('Game runs in portrait mode');
         document.getElementById('turn').style.display = "block";
       }
       if (game.scale.isLandscape) {
-        console.log("hi");
+        console.log('Game runs in landscape mode');
         document.getElementById('turn').style.display = "none";
         game.state.start('load');
       }
