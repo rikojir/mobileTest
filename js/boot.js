@@ -36,6 +36,17 @@ var bootState = {
           
           //WARNING: IMPORTANT CHANGE!
           //game.scale.refresh();
+        } else {
+          //Desktop device, so we can use higher max widths and heights
+          document.body.style.backgroundColor = '#3498db';
+          // Set the min and max width/height of the game
+          game.scale.minWidth = 250;
+          game.scale.minHeight = 170;
+          game.scale.maxWidth = 250 * 3;
+          game.scale.maxHeight = 170 * 3;
+          // Center the game on the screen
+          game.scale.pageAlignHorizontally = true;
+          game.scale.pageAlignVertically = true;
         }
           
           
