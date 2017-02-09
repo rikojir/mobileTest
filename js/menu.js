@@ -33,7 +33,8 @@ var menuState = {
         this.muteButton.input.useHandCursor = true;
       
         // Create start button
-        this.startButton = game.add.button(game.world.centerX, game.world.height-80, 'startButton', this.start, this);
+        this.startButton = game.add.button(game.world.centerX, game.world.height-game.world.height/3, 'startButton', this.start, this);
+        this.startButton.anchor.setTo(0.5, 0.5);
       
         // Store the relevant text based on the device used
         if (game.device.desktop) {
@@ -46,7 +47,7 @@ var menuState = {
         }
 
         // Explain how to start the game
-        var startLabel = game.add.text(game.world.centerX, game.world.height - 80, text, {font: '25px Arial', fill: '#ffffff'});
+        var startLabel = game.add.text(game.world.centerX, game.world.height - game.world.height/5, text, {font: '25px Arial', fill: '#ffffff'});
         startLabel.anchor.setTo(0.5, 0.5);
       
         //Tween for startLabel

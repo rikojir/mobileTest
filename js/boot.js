@@ -3,13 +3,6 @@ var bootState = {
     preload: function () {
         /* Load the menu image */
         game.load.image('progressBar', 'assets/progressBar.png');
-      
-        /* Scale the game to keep aspect ratio untouched and 
-        always show the complete game */
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-      
-        /* Landscape allowed, portrait not */
-        game.scale.forceOrientation(true, false);
     }, 
 
     
@@ -17,6 +10,13 @@ var bootState = {
         /* Set some game settings */
         game.stage.backgroundColor = '#3498db';
         game.physics.startSystem(Phaser.Physics.ARCADE);
+      
+        /* Scale the game to keep aspect ratio untouched and 
+        always show the complete game */
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      
+        /* Landscape allowed, portrait not */
+        game.scale.forceOrientation(true, false);
       
 
         // If the device is not a desktop, so it's a mobile device
