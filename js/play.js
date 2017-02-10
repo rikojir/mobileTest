@@ -65,7 +65,15 @@ var playState = {
         /* It contains the game's logic */
         
         /* Tell Phaser that the player and the walls should collide */
-        game.physics.arcade.collide(this.player, this.walls);
+        game.physics.arcade.collide(this.player, this.layer);
+      
+        // Make the enemies and walls collide
+        game.physics.arcade.collide(this.enemies, this.layer);
+        // Call the 'playerDie' function when the player and an enemy overlap
+        game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
+      
+        /* Check for collisions between player and coins */
+        game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
         
         /* Check for player movement */
         this.movePlayer();
@@ -88,13 +96,7 @@ var playState = {
           this.nextEnemy = game.time.now + delay;
         }
         
-        // Make the enemies and walls collide
-        game.physics.arcade.collide(this.enemies, this.walls);
-        // Call the 'playerDie' function when the player and an enemy overlap
-        game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
-      
-        /* Check for collisions between player and coins */
-        game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
+        
     },
   
     write: function() {
@@ -128,7 +130,7 @@ var playState = {
         /* If the player is on the ground or in the air, means 0 or 1 , if it is higher, jumping won't work anymore */
         if (this.doublejump === 0 | this.doublejump === 1) {
             /* If the up arrow key is pressed and the player is touching the ground just jump */
-            if (this.cursor.up.isDown && this.player.body.touching.down) {
+            if (this.cursor.up.isDown && this.player.body.onFloor()) {
                 /* Play jump sound */
                 this.jumpSound.play();
 
@@ -146,7 +148,7 @@ var playState = {
                 Now the else-if block won't get executed until you press the key another time */
                 this.cursor.up.isDown = false;
             }
-            else if (this.cursor.up.isDown && !(this.player.body.touching.down)) {
+            else if (this.cursor.up.isDown && !(this.player.body.onFloor())) {
                 /* If the up key is pressed a second time and the player is in the air */
                 console.log("doublejump");
                 /* Play jump sound */
@@ -161,7 +163,7 @@ var playState = {
             }
         }
         
-        if (this.player.body.touching.down && this.doublejump > 0) {
+        if (this.player.body.onFloor() && this.doublejump > 0) {
                 console.log("Reset doublejump counter");
                 /* Reset doublejump counter */
                 this.doublejump = 0;
@@ -179,7 +181,7 @@ var playState = {
     },
     
     checkForDoubleJump : function() {
-        this.doubleJumpChecker = this.player.body.touching.down;
+        this.doubleJumpChecker = this.player.body.onFloor();
         /* Player in the air? */
         if (!(this.doubleJumpChecker) && this.doublejump === 1) {
             console.log("Player in the air");
@@ -298,30 +300,20 @@ var playState = {
     },
     
     createWorld : function() {
-        /* Create a group for the walls */
-        this.walls = game.add.group();
-        
-        /* Add Arcade physics to the whole group */
-        this.walls.enableBody = true;
-        
-        /* Create 2 walls in the group */
-        game.add.sprite(0, 0, 'wallV', 0, this.walls); 
-        game.add.sprite(480, 0, 'wallV', 0, this.walls);
-        game.add.sprite(300, 0, 'wallH', 0, this.walls);
-        game.add.sprite(0, 0, 'wallH', 0, this.walls);
-        game.add.sprite(0, 320, 'wallH', 0, this.walls);
-        game.add.sprite(300, 320, 'wallH', 0, this.walls);
-        game.add.sprite(-100, 160, 'wallH', 0, this.walls);
-        game.add.sprite(400, 160, 'wallH', 0, this.walls);
-        
-        var middleTop = game.add.sprite(100, 80, 'wallH', 0, this.walls);
-        middleTop.scale.setTo(1.5, 1);
-        
-        var middleBottom = game.add.sprite(100, 240, 'wallH', 0, this.walls);
-        middleBottom.scale.setTo(1.5, 1);
-        
-        /* Set all the walls to be immovable */
-        this.walls.setAll('body.immovable', true);
+        // Create the tilemap
+        this.map = game.add.tilemap('map');
+      
+        // Add the tileset to the map
+        this.map.addTilesetImage('tileset');
+      
+        // Create the layer, by specifying the name of the Tiled layer
+        this.layer = this.map.createLayer('Tile Layer 1');
+      
+        // Set the world size to match the size of the layer
+        this.layer.resizeWorld();
+      
+        //Enable collisions for the first element of our tileset (the blue wall)
+        this.map.setCollision(1);
     },
   
     addMobileInputs: function() {

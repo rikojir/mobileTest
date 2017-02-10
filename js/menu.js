@@ -4,7 +4,7 @@ var menuState = {
         // Add a background image game.add.image(0, 0, 'background');
         // Display the name of the game
         var nameLabel = game.add.text(game.world.centerX, -50, 'Super Coin Box', {
-            font: '50px Arial'
+            font: '50px Geo'
             , fill: '#ffffff'
         });
         nameLabel.anchor.setTo(0.5, 0.5);
@@ -24,7 +24,7 @@ var menuState = {
         }
     
         // Show the score at the center of the screen
-        var scoreLabel = game.add.text(game.world.centerX, game.world.centerY, 'score: ' + game.global.score + '\n' + 'best score: ' + localStorage.getItem('bestScore'), {font: '25px Arial', fill: '#ffffff'});
+        var scoreLabel = game.add.text(game.world.centerX, game.world.centerY, 'score: ' + game.global.score + '\n' + 'best score: ' + localStorage.getItem('bestScore'), {font: '25px Geo', fill: '#ffffff'});
         scoreLabel.anchor.setTo(0.5, 0.5);
       
         // Create mute button
@@ -33,25 +33,25 @@ var menuState = {
         this.muteButton.input.useHandCursor = true;
       
         // Create start button
-        this.startButton = game.add.button(game.world.centerX, game.world.height-game.world.height/3, 'startButton', this.start, this);
-        this.startButton.anchor.setTo(0.5, 0.5);
+        this.playButton = game.add.button(game.world.centerX, game.world.height-game.world.height/3, 'playButton', this.start, this);
+        this.playButton.anchor.setTo(0.5, 0.5);
       
         // Store the relevant text based on the device used
         if (game.device.desktop) {
-          var text = 'press up the arrow key to start';
+          var text = 'press up the arrow key or play button to start';
         }
         else {
-          var text = 'touch the screen to start';
+          var text = 'press the play button to start';
           // Enable touch input
           //game.input.onDown.addOnce(this.start, this);
         }
 
         // Explain how to start the game
-        var startLabel = game.add.text(game.world.centerX, game.world.height - game.world.height/5, text, {font: '25px Arial', fill: '#ffffff'});
+        var startLabel = game.add.text(game.world.centerX, game.world.height - game.world.height/5, text, {font: '25px Geo', fill: '#ffffff'});
         startLabel.anchor.setTo(0.5, 0.5);
       
         //Tween for startLabel
-        game.add.tween(startLabel).to({angle: -2}, 500).to({angle: 2}, 500).loop().start();
+        game.add.tween(startLabel).to({angle: -2}, 500).to({angle: 0}, 500).to({angle: 2}, 500).to({angle: 0}, 500).loop().start();
       
         // Create a new Phaser keyboard variable: the up arrow key
         var upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
