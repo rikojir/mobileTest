@@ -36,6 +36,7 @@ var playState = {
         // New score variable
         game.global.score = 0;
         
+        // Create the world according to the selected level
         this.createWorld();
       
         //Contains the time of the next enemy creation
@@ -56,6 +57,7 @@ var playState = {
         this.emitter.setYSpeed(-150,150);
         this.emitter.setXSpeed(-150,150);
         //No gravity for pixels, otherwise the pixels will fall down
+        this.emitter.gravity = 0;
         this.emitter.gravity = 0;
         
     },
@@ -95,12 +97,28 @@ var playState = {
           // Add 2,2s to the actual time, so next spawning will be in 2,2s
           this.nextEnemy = game.time.now + delay;
         }
-        
-        
+      
+        /* Check for win */
+        this.checkLevelCompleted();
     },
   
-    write: function() {
-      console.log("hi");
+    checkLevelCompleted : function() {
+      if (game.global.score == 5) {
+        this.stopAndShrinkSprite(this.player);
+        
+        this.enemies.forEachAlive(this.stopAndShrinkSprite, this);
+        game.time.events.add(750, this.switchToLevelCompletedState, this);
+      }
+    },
+  
+    switchToLevelCompletedState: function() {
+      game.state.start('levelCompleted');
+    },
+  
+    stopAndShrinkSprite: function(sprite) {
+      sprite.body.velocity.x = 0;
+      sprite.body.gravity = 0;
+      game.add.tween(sprite.scale).to({x: 0, y: 0}, 100).start();
     },
     
     /* And here we will later add some of our own functions */
@@ -300,8 +318,26 @@ var playState = {
     },
     
     createWorld : function() {
+        // In the levelSelectionState we changed the game.global.level variable to the level we selected
+        // So now we have to choose the right tilemap for the level
+      
         // Create the tilemap
-        this.map = game.add.tilemap('map');
+        switch (game.global.level) {
+        case 5:
+          this.map = game.add.tilemap('map5');
+          break;
+        case 4:
+          this.map = game.add.tilemap('map4');
+          break;
+        case 3:
+          this.map = game.add.tilemap('map3');
+          break;
+        case 2:
+          this.map = game.add.tilemap('map2');
+          break;
+        default:
+          this.map = game.add.tilemap('map1');
+        }
       
         // Add the tileset to the map
         this.map.addTilesetImage('tileset');

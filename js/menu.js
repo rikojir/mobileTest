@@ -33,8 +33,9 @@ var menuState = {
         this.muteButton.input.useHandCursor = true;
       
         // Create start button
-        this.playButton = game.add.button(game.world.centerX, game.world.height-game.world.height/3, 'playButton', this.start, this);
+        this.playButton = game.add.button(game.world.centerX, game.world.height-game.world.height/3, 'playButton', this.levelSelection, this);
         this.playButton.anchor.setTo(0.5, 0.5);
+      
       
         // Store the relevant text based on the device used
         if (game.device.desktop) {
@@ -57,8 +58,8 @@ var menuState = {
         var upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
       
         // When the 'upKey' is pressed, it will call the 'start' function once
-        upKey.onDown.addOnce(this.start, this);
-    }, 
+        upKey.onDown.addOnce(this.levelSelection, this);
+    },
   
     toggleSound: function() {
       // If we die when the game is muted and the default frame 0 is shown, we change it to achieve consistency
@@ -69,8 +70,8 @@ var menuState = {
       this.muteButton.frame = game.sound.mute ? 1 : 0;
     },
     
-    start: function () {
+    levelSelection: function () {
         //Start the actual game 
-        game.state.start('play');
+        game.state.start('levelSelection');
     }
 };

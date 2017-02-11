@@ -14,9 +14,21 @@ var loadState = {
         
         /* Load the player as a spritesheet for later animation */
         game.load.spritesheet('player', 'assets/player2.png', 20, 20);
+      
+        game.load.image('level1', 'assets/level1.png');
+        game.load.image('level2', 'assets/level2.png');
+        game.load.image('level3', 'assets/level3.png');
+        game.load.image('level4', 'assets/level4.png');
+        game.load.image('level5', 'assets/level5.png');
+        
         
         game.load.image('tileset', 'assets/tileset.png');
-        game.load.tilemap('map', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map1', 'assets/map1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map2', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map3', 'assets/map3.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map4', 'assets/map4.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map5', 'assets/map5.json', null, Phaser.Tilemap.TILED_JSON);
+      
         game.load.image('playButton', 'assets/playButton.png');
         game.load.spritesheet('muteButton', 'assets/muteButton.png', 28, 22);
         game.load.image('pixel', 'assets/pixel.png');
